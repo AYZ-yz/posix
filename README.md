@@ -21,6 +21,8 @@ posix多线程编程
     总线错误而失败。
     
     8.可以通过调用pthread_mutex_init来动态初始化一个互斥量，并且需要通过调用pthread_mutex来释放它，不需要释放一个使用PTHREAD_MUTEX_INITIALIZER宏静态初始化的互斥量。
+    
+    9.多线程的使用场景：计算密集型应用，为了能在多处理器系统上运行，将这些计算分解到多个线程中实现 2/IO密集型应用，为提高性能，将IO操作重叠，很多线程可以同时等待不同的IO操作。
    
 线程的本质
  ---
@@ -29,3 +31,21 @@ posix多线程编程
 互斥量
 ---
     不能拷贝互斥变量，因为使用拷贝的互斥变量是不确定的，可以拷贝指向互斥变量的指针，这就就可以使多个函数或线程共享互斥量来实现同步。
+   
+posix线程数据类型
+---
+pthread_t               线程标识符
+pthread_mutex_t         互斥量
+pthread_code_t          条件变量
+pthread_key_t           线程私有权握访问键
+pthread_attr_t          线程属性对象
+pthread_mutexattr_t     互斥量属性对象
+pthread_condattr_t      条件变量属性对象
+pthread_once_t          一次性初始化控制变量
+
+posix线程函数报错
+---
+当pthead函数发生错误时，函数放回一个错误代码，调用函数strerror获得错误代码的描述，然后将其打印到stderr文件流中。其中pthread_getspecific函数根本不报错，它仅返回线程私有数据pthread_key_k的值，如果值无效或线程未对它赋值，则直接返回NULL。
+
+
+    
